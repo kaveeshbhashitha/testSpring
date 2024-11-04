@@ -47,7 +47,7 @@ public class StudentController {
         }
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteEmployee(@PathVariable("id") long
     id){
     //delete employee from db
