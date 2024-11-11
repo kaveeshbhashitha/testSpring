@@ -1,5 +1,4 @@
 package com.test.testproject.Controller;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.test.testproject.Model.Student;
 import com.test.testproject.Service.StudentService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -37,6 +38,24 @@ public class StudentController {
         return new ResponseEntity<Student>(studentService.getStudentById(studentId),HttpStatus.OK);
     }
 
+    // StudentController.java
+
+    @GetMapping("/getByYear/{year}")
+    public ResponseEntity<List<Student>> getStudentByEnrollYear(@PathVariable("year") String year){
+        List<Student> students = studentService.getStudentByEnrolledYear(year);
+        return new ResponseEntity<>(students, HttpStatus.OK);
+    }
+
+    @GetMapping("/getByDepartment/{studentId}")
+    public ResponseEntity<String> getDepartmentByStudentId(@PathVariable("studentId") Long studentId) {
+        String departmentName = studentService.getDepartmentNameByStudentId(studentId);
+        if (departmentName != null) {
+            return ResponseEntity.ok(departmentName);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PutMapping("/update/{id}")
     public ResponseEntity<Student> updateStudent(@PathVariable("id") Long studentId, @RequestBody Student student) {
         try {
@@ -48,11 +67,16 @@ public class StudentController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable("id") long
-    id){
+    public ResponseEntity<String> deleteEmployee(@PathVariable("id") long id){
     //delete employee from db
-    studentService.deleteStudent(id);
-    return new ResponseEntity<String>("Employee deleted Successfully.",HttpStatus.OK);
+        studentService.deleteStudent(id);
+        return new ResponseEntity<String>("Employee deleted Successfully.",HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteByYear/{year}")
+    public ResponseEntity<String> removeStudentsByEnrolmentYear(@PathVariable("year") String year) {
+        studentService.removeStudentsByEnrolmentYear(year);
+        return ResponseEntity.ok("Students enrolled in " + year + " have been deleted.");
     }
  }
 

@@ -6,6 +6,9 @@ public interface StudentService {
     Student saveStudent(Student student);
     List<Student> getAllStudent();
     Student getStudentById(Long id);
-    Student updateStudent(Student student,Long id);
+    List<Student> getStudentByEnrolledYear(String year);
+    Student updateStudent(Student student, Long id);
     void deleteStudent(long id);
+    String getDepartmentNameByStudentId(Long studentId);
+    void removeStudentsByEnrolmentYear(String year);
 }

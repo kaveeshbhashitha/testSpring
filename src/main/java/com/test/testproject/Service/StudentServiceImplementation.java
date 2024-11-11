@@ -30,11 +30,15 @@ public class StudentServiceImplementation implements StudentService{
             throw new RuntimeException();
         }
     }
+
+    @Override
+    public List<Student> getStudentByEnrolledYear(String year) {
+        return studentRepository.findByYearOfEnrolment(year);
+    }
     //update student
     @Override
     public Student updateStudent(Student student, Long id) {
-        Student existingstudent =
-        studentRepository.findById(id).orElseThrow(()-> new RuntimeException());
+        Student existingstudent = studentRepository.findById(id).orElseThrow(()-> new RuntimeException());
         existingstudent.setFirstName(student.getFirstName());
         existingstudent.setLastName(student.getLastName());
         existingstudent.setStdEmail(student.getStdEmail());
@@ -44,7 +48,17 @@ public class StudentServiceImplementation implements StudentService{
     }
     @Override
     public void deleteStudent(long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletestudent'");
+        throw new UnsupportedOperationException("Unimplemented method 'delete student'");
+    }
+
+    @Override
+    public String getDepartmentNameByStudentId(Long studentId) {
+        // Call repository method to get the department name
+        return studentRepository.findDepartmentNameByStudentId(studentId);
+    }
+
+    @Override
+    public void removeStudentsByEnrolmentYear(String year) {
+        studentRepository.deleteStudentsByEnrolmentYear(year);
     }
 }
